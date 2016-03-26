@@ -34,57 +34,57 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = Reference.MOD_ID,name = Reference.MOD_NAME, version = Reference.VERSION)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
 public class DarkSoulsMod {
-	
+
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
 	public static CommonProxy proxy;
-	public static SimpleNetworkWrapper network ;
-	
+	public static SimpleNetworkWrapper network;
+
 	@Instance(Reference.MOD_ID)
 	public static DarkSoulsMod instance;
-	
+
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event){
+	public void preInit(FMLPreInitializationEvent event) {
 		Blocks.init();
 		Blocks.register();
 		Items.init();
 		Items.register();
-		registerEntity(SoulsEntity.class,"soulsEntity");
-		
+		registerEntity(SoulsEntity.class, "soulsEntity");
+
 		FMLCommonHandler.instance().bus().register(new KeyInputHandler(Minecraft.getMinecraft()));
 		EstusKeybind.init();
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("soulsChannel");
 		network.registerMessage(PlayerHealMessage.Handler.class, PlayerHealMessage.class, 0, Side.SERVER);
 		network.registerMessage(PlayerSpawnpointMessage.Handler.class, PlayerSpawnpointMessage.class, 1, Side.SERVER);
 		network.registerMessage(PlayerSoulMessage.Handler.class, PlayerSoulMessage.class, 2, Side.SERVER);
-		
+
 		network.registerMessage(PlayerHumanityMessage.HandlerOnServer.class, PlayerHumanityMessage.class, 3, Side.SERVER);
 		network.registerMessage(PlayerHumanityMessage.HandlerOnClient.class, PlayerHumanityMessage.class, 4, Side.CLIENT);
-		
+
 		network.registerMessage(PlayerEstusMessage.HandlerOnServer.class, PlayerEstusMessage.class, 5, Side.SERVER);
 		network.registerMessage(PlayerEstusMessage.HandlerOnClient.class, PlayerEstusMessage.class, 6, Side.CLIENT);
 	}
-	
+
 	@EventHandler
-	public void init(FMLInitializationEvent event){
+	public void init(FMLInitializationEvent event) {
 		proxy.registerRenders();
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnListener());
 	}
-	
+
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event){
-		 MinecraftForge.EVENT_BUS.register(new EstusGuiListener(Minecraft.getMinecraft()));
-		 MinecraftForge.EVENT_BUS.register(new HumanityGuiListener(Minecraft.getMinecraft()));
-		 MinecraftForge.EVENT_BUS.register(new HealthBarGuiListener(Minecraft.getMinecraft()));
-		 MinecraftForge.EVENT_BUS.register(new SoulsGuiListener(Minecraft.getMinecraft()));
-		 MinecraftForge.EVENT_BUS.register(new PlayerEventListener());
-		 MinecraftForge.EVENT_BUS.register(new DeathListener());
-		 MinecraftForge.EVENT_BUS.register(new ItemPickupListener());
+	public void postInit(FMLPostInitializationEvent event) {
+		MinecraftForge.EVENT_BUS.register(new EstusGuiListener(Minecraft.getMinecraft()));
+		MinecraftForge.EVENT_BUS.register(new HumanityGuiListener(Minecraft.getMinecraft()));
+		MinecraftForge.EVENT_BUS.register(new HealthBarGuiListener(Minecraft.getMinecraft()));
+		MinecraftForge.EVENT_BUS.register(new SoulsGuiListener(Minecraft.getMinecraft()));
+		MinecraftForge.EVENT_BUS.register(new PlayerEventListener());
+		MinecraftForge.EVENT_BUS.register(new DeathListener());
+		MinecraftForge.EVENT_BUS.register(new ItemPickupListener());
 	}
-	
-	public static void registerEntity(Class entityClass, String name)
-	{
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void registerEntity(Class entityClass, String name) {
 		int entityID = EntityRegistry.findGlobalUniqueEntityId();
 		EntityRegistry.registerGlobalEntityID(entityClass, name, entityID);
 		EntityRegistry.registerModEntity(entityClass, name, entityID, instance, 64, 1, true);

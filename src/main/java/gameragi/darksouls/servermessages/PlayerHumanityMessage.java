@@ -3,7 +3,6 @@ package gameragi.darksouls.servermessages;
 import gameragi.darksouls.ExtendedPlayer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -14,9 +13,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class PlayerHumanityMessage implements IMessage {
 	private static int humanity;
 
-	public PlayerHumanityMessage(){}
-	
-	public PlayerHumanityMessage(Integer humanity){
+	public PlayerHumanityMessage() {
+	}
+
+	public PlayerHumanityMessage(Integer humanity) {
 		this.humanity = humanity;
 	}
 
@@ -29,13 +29,13 @@ public class PlayerHumanityMessage implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		ByteBufUtils.writeVarInt(buf, humanity, 5);
 	}
-	
-	public static class HandlerOnServer implements IMessageHandler<PlayerHumanityMessage,IMessage>{
+
+	public static class HandlerOnServer implements IMessageHandler<PlayerHumanityMessage, IMessage> {
 
 		@Override
 		public IMessage onMessage(final PlayerHumanityMessage message, final MessageContext ctx) {
 			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().playerEntity.worldObj;
-			mainThread.addScheduledTask(new Runnable(){
+			mainThread.addScheduledTask(new Runnable() {
 
 				@Override
 				public void run() {
@@ -46,15 +46,15 @@ public class PlayerHumanityMessage implements IMessage {
 			});
 			return null;
 		}
-		
+
 	}
-	
-	public static class HandlerOnClient implements IMessageHandler<PlayerHumanityMessage,IMessage>{
+
+	public static class HandlerOnClient implements IMessageHandler<PlayerHumanityMessage, IMessage> {
 
 		@Override
 		public IMessage onMessage(final PlayerHumanityMessage message, final MessageContext ctx) {
 			IThreadListener mainThread = Minecraft.getMinecraft();
-			mainThread.addScheduledTask(new Runnable(){
+			mainThread.addScheduledTask(new Runnable() {
 
 				@Override
 				public void run() {
@@ -65,7 +65,7 @@ public class PlayerHumanityMessage implements IMessage {
 			});
 			return null;
 		}
-		
+
 	}
 
 }

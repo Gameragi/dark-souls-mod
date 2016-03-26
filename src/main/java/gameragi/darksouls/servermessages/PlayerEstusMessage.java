@@ -10,13 +10,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class PlayerEstusMessage implements IMessage{
+public class PlayerEstusMessage implements IMessage {
 
 	private static int estusCount;
 
-	public PlayerEstusMessage(){}
-	
-	public PlayerEstusMessage(Integer estusCount){
+	public PlayerEstusMessage() {
+	}
+
+	public PlayerEstusMessage(Integer estusCount) {
 		this.estusCount = estusCount;
 	}
 
@@ -29,13 +30,13 @@ public class PlayerEstusMessage implements IMessage{
 	public void toBytes(ByteBuf buf) {
 		ByteBufUtils.writeVarInt(buf, estusCount, 5);
 	}
-	
-	public static class HandlerOnServer implements IMessageHandler<PlayerEstusMessage,IMessage>{
+
+	public static class HandlerOnServer implements IMessageHandler<PlayerEstusMessage, IMessage> {
 
 		@Override
 		public IMessage onMessage(final PlayerEstusMessage message, final MessageContext ctx) {
 			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().playerEntity.worldObj;
-			mainThread.addScheduledTask(new Runnable(){
+			mainThread.addScheduledTask(new Runnable() {
 
 				@Override
 				public void run() {
@@ -46,15 +47,15 @@ public class PlayerEstusMessage implements IMessage{
 			});
 			return null;
 		}
-		
+
 	}
-	
-	public static class HandlerOnClient implements IMessageHandler<PlayerEstusMessage,IMessage>{
+
+	public static class HandlerOnClient implements IMessageHandler<PlayerEstusMessage, IMessage> {
 
 		@Override
 		public IMessage onMessage(final PlayerEstusMessage message, final MessageContext ctx) {
 			IThreadListener mainThread = Minecraft.getMinecraft();
-			mainThread.addScheduledTask(new Runnable(){
+			mainThread.addScheduledTask(new Runnable() {
 
 				@Override
 				public void run() {
@@ -65,6 +66,6 @@ public class PlayerEstusMessage implements IMessage{
 			});
 			return null;
 		}
-		
+
 	}
 }

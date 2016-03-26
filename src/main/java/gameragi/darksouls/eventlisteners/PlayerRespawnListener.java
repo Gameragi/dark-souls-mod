@@ -9,24 +9,19 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class PlayerRespawnListener {
-	
+
 	public PlayerRespawnListener() {
 	}
 
 	@SubscribeEvent(priority = EventPriority.NORMAL)
-	public void onPlayerSpawn(EntityEvent.CanUpdate event){
-		if(!event.entity.worldObj.isRemote){
+	public void onPlayerSpawn(EntityEvent.CanUpdate event) {
+		if (!event.entity.worldObj.isRemote) {
 			EntityPlayer player;
-			try{
-				player = (EntityPlayer)event.entity;
-			}catch(Exception e){
+			try {
+				player = (EntityPlayer) event.entity;
+			} catch (Exception e) {
 				return;
 			}
 			System.out.println("player tick humanity = " + ExtendedPlayer.get(player).getHumanity());
