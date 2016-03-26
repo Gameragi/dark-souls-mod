@@ -1,0 +1,16 @@
+[
+{
+  "modid": "bm",
+  "name": "Dark Souls Mod",
+  "description": "Dark Souls inspired mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Gameragi"],
+  "credits": "Thanks to all the helpful folks that hung out with me on Twitch!",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
